@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-homeworks",
+  "version": "1.0.0",
+  "main": "quiz4.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "moment": "^2.30.1",
+    "random-words": "^2.0.1"
+  }
+}
