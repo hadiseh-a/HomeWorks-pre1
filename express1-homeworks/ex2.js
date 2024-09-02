@@ -154,3 +154,61 @@ const storeData = [
 ];
 
 // answer
+const express = require("express");
+const app = express();
+
+app.get("/:category/:subcategory/:id", (req, res) => {
+  const { category, subcategory, id } = req.params;
+  if (storeData.find((store) => store.category == category)) {
+    const foundedCategory = storeData.find(
+      (store) => store.category == category
+    );
+    if (
+      foundedCategory.subcategories.find(
+        (subcategories) => subcategories.subcategory == subcategory
+      )
+    ) {
+      const foundedSubCategory = foundedCategory.subcategories.find(
+        (subcategories) => subcategories.subcategory == subcategory
+      );
+      if (foundedSubCategory.products.find((product) => product.id == id)) {
+        const foundedproducts = foundedSubCategory.products.find(
+          (product) => product.id == id
+        );
+        res.send(`${JSON.stringify(foundedproducts)}`);
+      } else res.send("did not find the product");
+    } else res.send("did not find the subcategory,");
+  } else res.send("did not find the category,");
+});
+
+app.get("/:category/:subcategory", (req, res) => {
+  const { category, subcategory} = req.params;
+  if (storeData.find((store) => store.category == category)) {
+    const foundedCategory = storeData.find(
+      (store) => store.category == category
+    );
+    if (
+      foundedCategory.subcategories.find(
+        (subcategories) => subcategories.subcategory == subcategory
+      )
+    ) {
+      const foundedSubCategory = foundedCategory.subcategories.find(
+        (subcategories) => subcategories.subcategory == subcategory
+      );
+      res.send(`${JSON.stringify(foundedSubCategory)}`);
+    } else res.send("did not find the subcategory,");
+  } else res.send("did not find the category,");
+});
+
+app.get("/:category", (req, res) => {
+  const { category} = req.params;
+  if (storeData.find((store) => store.category == category)) {
+    const foundedCategory = storeData.find(
+      (store) => store.category == category
+    );
+    res.send(`${JSON.stringify(foundedCategory)}`);
+  } else res.send("did not find the category,");
+});
+
+const PORT = 4000;
+app.listen(PORT, () => console.log("the server is running."));

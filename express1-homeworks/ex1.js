@@ -15,7 +15,6 @@
 
 */
 
-
 const users = [
   {
     id: 1,
@@ -55,3 +54,31 @@ const users = [
 ];
 
 //Answer
+
+const express = require("express");
+const app = express();
+const PORT = 3000;
+
+let respons = "";
+const usersList = users.map((user) => {
+  respons += `<li>${JSON.stringify(user)}</li>`;
+  return `<h3>${JSON.stringify(user)}</h3>`;
+});
+
+app.get("/users", (req, res) => {
+  res.send(`<ol>${respons}</ol>`);
+});
+
+app.get("/users/:id", (req, res) => {
+  const { id } = req.params;
+  if (users.find((user) => user.id == id)) res.send(`${usersList[id - 1]}`);
+  else res.send("user not found");
+});
+
+app.use("*", (req, res) => {
+  res.send("not found");
+});
+
+app.listen(PORT, () => {
+  console.log("your app is running");
+});

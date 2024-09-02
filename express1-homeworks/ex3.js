@@ -141,3 +141,37 @@ const products = [
 ];
 
 // answer
+
+const express = require("express");
+const app = express();
+const PORT = 4000;
+
+let responsAll = "";
+const productList = products.map((product) => {
+  responsAll += `<li>${JSON.stringify(product)}</li>`;
+  return `<h3>${JSON.stringify(product)}</h3>`;
+});
+
+app.get("/products", (req, res) => {
+  const { maxPrice, limit } = req.query;
+
+  if (maxPrice & limit) {
+    let responseMaxLimit;
+    const filteredResult = products.filter((product) => {
+      if (product.price <= maxPrice) {
+        responseMaxLimit += `<li>${product}</li>`;
+        return product;
+      }
+    });
+    res.send(`<ol>${responseMaxLimit}</ol>`);
+  } else if (maxPrice & !limit) {
+    const filteredResult = products.filter(
+      (product) => product.price <= maxPrice
+    );
+    res.send(JSON.stringify(filteredResult));
+  } else if (limit & !maxPrice) {
+    res.send(JSON.stringify(products.slice(0, limit)));
+  } else res.send(`<ol>${responsAll}</ol>`);
+});
+
+app.listen(PORT, () => console.log("the server is running."));
