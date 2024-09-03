@@ -62,7 +62,7 @@ const PORT = 3000;
 let respons = "";
 const usersList = users.map((user) => {
   respons += `<li>${JSON.stringify(user)}</li>`;
-  return `<h3>${JSON.stringify(user)}</h3>`;
+  return `<span>${JSON.stringify(user)}</span>`;
 });
 
 app.get("/users", (req, res) => {

@@ -146,32 +146,29 @@ const express = require("express");
 const app = express();
 const PORT = 4000;
 
-let responsAll = "";
 const productList = products.map((product) => {
-  responsAll += `<li>${JSON.stringify(product)}</li>`;
-  return `<h3>${JSON.stringify(product)}</h3>`;
+  return `<li>${JSON.stringify(product)}</li>`;
 });
 
 app.get("/products", (req, res) => {
   const { maxPrice, limit } = req.query;
+  if ((maxPrice === undefined) && (limit === undefined))
+    res.send(`<ol>${productList}</ol>`);
+  else if ((maxPrice !== undefined) && (limit === undefined)) {
+    const filteredResult = products
+      .filter((product) => product.price <= maxPrice)
+      .map((product) => `<li>${JSON.stringify(product)}</li>`);
 
-  if (maxPrice & limit) {
-    let responseMaxLimit;
-    const filteredResult = products.filter((product) => {
-      if (product.price <= maxPrice) {
-        responseMaxLimit += `<li>${product}</li>`;
-        return product;
-      }
-    });
-    res.send(`<ol>${responseMaxLimit}</ol>`);
-  } else if (maxPrice & !limit) {
-    const filteredResult = products.filter(
-      (product) => product.price <= maxPrice
-    );
-    res.send(JSON.stringify(filteredResult));
-  } else if (limit & !maxPrice) {
-    res.send(JSON.stringify(products.slice(0, limit)));
-  } else res.send(`<ol>${responsAll}</ol>`);
+    res.send(`<ol>${filteredResult}</ol>`);
+  } else if ((limit !== undefined) && (maxPrice === undefined))
+    res.send(`<ol>${productList.slice(0, limit)}</ol>`);
+  else if ((maxPrice !== undefined) && (limit !== undefined)) {
+    const filteredResult = products
+      .filter((product) => product.price <= maxPrice)
+      .map((product) => `<li>${JSON.stringify(product)}</li>`);
+
+    res.send(`<ol>${filteredResult.slice(0, limit)}</ol>`);
+  } else res.send("not found");
 });
 
 app.listen(PORT, () => console.log("the server is running."));
