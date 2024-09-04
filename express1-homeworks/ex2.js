@@ -175,14 +175,14 @@ app.get("/:category/:subcategory/:id", (req, res) => {
         const foundedproducts = foundedSubCategory.products.find(
           (product) => product.id == id
         );
-        res.send(`${JSON.stringify(foundedproducts)}`);
+        res.send(foundedproducts);
       } else res.send("did not find the product");
     } else res.send("did not find the subcategory,");
   } else res.send("did not find the category,");
 });
 
 app.get("/:category/:subcategory", (req, res) => {
-  const { category, subcategory} = req.params;
+  const { category, subcategory } = req.params;
   if (storeData.find((store) => store.category == category)) {
     const foundedCategory = storeData.find(
       (store) => store.category == category
@@ -195,18 +195,18 @@ app.get("/:category/:subcategory", (req, res) => {
       const foundedSubCategory = foundedCategory.subcategories.find(
         (subcategories) => subcategories.subcategory == subcategory
       );
-      res.send(`${JSON.stringify(foundedSubCategory)}`);
+      res.send(foundedSubCategory);
     } else res.send("did not find the subcategory,");
   } else res.send("did not find the category,");
 });
 
 app.get("/:category", (req, res) => {
-  const { category} = req.params;
+  const { category } = req.params;
   if (storeData.find((store) => store.category == category)) {
     const foundedCategory = storeData.find(
       (store) => store.category == category
     );
-    res.send(`${JSON.stringify(foundedCategory)}`);
+    res.send(foundedCategory);
   } else res.send("did not find the category,");
 });
 

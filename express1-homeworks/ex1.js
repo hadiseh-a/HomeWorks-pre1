@@ -59,19 +59,14 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
-let respons = "";
-const usersList = users.map((user) => {
-  respons += `<li>${JSON.stringify(user)}</li>`;
-  return `<span>${JSON.stringify(user)}</span>`;
-});
 
 app.get("/users", (req, res) => {
-  res.send(`<ol>${respons}</ol>`);
+  res.send(users);
 });
 
 app.get("/users/:id", (req, res) => {
   const { id } = req.params;
-  if (users.find((user) => user.id == id)) res.send(`${usersList[id - 1]}`);
+  if (users.find((user) => user.id == id)) res.send(users[id - 1]);
   else res.send("user not found");
 });
 

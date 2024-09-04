@@ -146,28 +146,23 @@ const express = require("express");
 const app = express();
 const PORT = 4000;
 
-const productList = products.map((product) => {
-  return `<li>${JSON.stringify(product)}</li>`;
-});
-
 app.get("/products", (req, res) => {
   const { maxPrice, limit } = req.query;
-  if ((maxPrice === undefined) && (limit === undefined))
-    res.send(`<ol>${productList}</ol>`);
-  else if ((maxPrice !== undefined) && (limit === undefined)) {
-    const filteredResult = products
-      .filter((product) => product.price <= maxPrice)
-      .map((product) => `<li>${JSON.stringify(product)}</li>`);
+  if (maxPrice === undefined && limit === undefined) res.send(products);
+  else if (maxPrice !== undefined && limit === undefined) {
+    const filteredResult = products.filter(
+      (product) => product.price <= maxPrice
+    );
 
-    res.send(`<ol>${filteredResult}</ol>`);
-  } else if ((limit !== undefined) && (maxPrice === undefined))
-    res.send(`<ol>${productList.slice(0, limit)}</ol>`);
-  else if ((maxPrice !== undefined) && (limit !== undefined)) {
-    const filteredResult = products
-      .filter((product) => product.price <= maxPrice)
-      .map((product) => `<li>${JSON.stringify(product)}</li>`);
+    res.send(filteredResult);
+  } else if (limit !== undefined && maxPrice === undefined)
+    res.send(products.slice(0, limit));
+  else if (maxPrice !== undefined && limit !== undefined) {
+    const filteredResult = products.filter(
+      (product) => product.price <= maxPrice
+    );
 
-    res.send(`<ol>${filteredResult.slice(0, limit)}</ol>`);
+    res.send(filteredResult.slice(0, limit));
   } else res.send("not found");
 });
 
