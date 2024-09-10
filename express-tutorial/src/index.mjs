@@ -4,6 +4,11 @@ const app = express();
 
 app.use(express.json());
 
+const loggingMiddleware = (request, response, next) => {
+  console.log(`${request.method}-${request.url}`);
+  next();
+};
+
 const PORT = process.env.PORT || 3000;
 
 const mockUsers = [
@@ -16,9 +21,24 @@ const mockUsers = [
   { id: 7, username: "marilyn", displayName: "Marilyn" },
 ];
 
-app.get("/", (request, response) => {
-  response.status(201).send({ msg: "Hello!" });
-});
+app.get(
+  "/",
+  (request, response, next) => {
+    console.log("Base URL");
+    next();
+  },
+  (request, response, next) => {
+    console.log("Base URL");
+    next();
+  },
+  (request, response, next) => {
+    console.log("Base URL");
+    next();
+  },
+  (request, response) => {
+    response.status(201).send({ msg: "Hello!" });
+  }
+);
 
 app.get("/api/users", (request, response) => {
   console.log(request.query);
