@@ -12,8 +12,7 @@ Routes you should create:
 
 You can use below array to send reponses or store data
 
-```js
-let products = [
+```jslet products = [
   { id: 1, name: "iPhone 12 Pro", price: 1099.99 },
   { id: 2, name: "Samsung Galaxy S21", price: 999.99 },
   { id: 3, name: "Sony PlayStation 5", price: 499.99 },
